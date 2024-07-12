@@ -14,6 +14,10 @@ data:extend({
     name = "ad-essence"
   },
   {
+    type = "fuel-category",
+    name = "ad-drilling"
+  },
+  {
     type = "recipe-category",
     subgroup = "rocket-building",
     name = "ad-summoning"

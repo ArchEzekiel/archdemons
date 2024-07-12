@@ -48,9 +48,9 @@ drill.selection_box = {{-2.4,-2.4}, {2.4,2.4}}
 drill.minable = {mining_time = 0.5, result = "ad-portal-drill"}
 drill.max_health = 1000
 drill.vector_to_place_result = {0,0}
-drill.resource_searching_radius = 2.4
+drill.resource_searching_radius = 0.49
 drill.energy_usage = "750kW"
-drill.mining_speed = 1
+drill.mining_speed = 0.001
 drill.resource_categories = {"ad-fissure"}
 drill.resistances = {
 	{
@@ -154,7 +154,6 @@ data:extend({
 		},
 	},
 	--Solid Processing Unit
-	
 	{
 		type = "item",
 		name = "ad-solid-processing-unit",
@@ -222,8 +221,8 @@ data:extend({
 		module_specification = {
 			module_slots = 2
 		},
-	}
-	--[[Artificial Portal--
+	},
+	--artificial portal
 	{
 		type = "item",
 		name = "ad-artificial-portal",
@@ -267,7 +266,7 @@ data:extend({
 		collision_box = {{-2.4,-2.4}, {2.4,2.4}},
 		selection_box = {{-2.4,-2.4}, {2.4,2.4}},
 		flags = {"placeable-player", "player-creation"},
-		minable = {mining_time = 0.5, result = "ad-artificial-portal"},
+		minable = {mining_time = 0.5, result = "ad-portal-drill"},
 		max_health = 1000,
 		crafting_speed = 1,
 		fixed_recipe = "ad-summoning-ritual",
@@ -321,5 +320,5 @@ data:extend({
 			module_slots = 8
 		},
 		allowed_effects = {"consumption", "speed", "productivity", "pollution"}
-	},]]
+	},
 })

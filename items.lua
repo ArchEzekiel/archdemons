@@ -1,3 +1,39 @@
+---adds a glow layer to any item prototype.
+---@param prototype data.ItemPrototype
+make_item_glowing = function(prototype)
+    if not prototype then
+        error('No prototype provided')
+    end
+    if prototype.pictures then
+        for _, picture in pairs(prototype.pictures) do
+            picture.draw_as_glow = true
+        end
+        return
+    end
+    if prototype.icon and not prototype.icons then
+        prototype.icons = {{icon = prototype.icon, icon_size = prototype.icon_size, icon_mipmaps = prototype.icon_mipmaps}}
+        prototype.icon = nil
+    end
+    if not prototype.icons then
+        error('No icon found for ' .. prototype.name)
+    end
+    local pictures = {}
+    for _, picture in pairs(table.deepcopy(prototype.icons)) do
+        picture.draw_as_glow = true
+        local icon_size = picture.icon_size or prototype.icon_size
+        picture.filename = picture.icon
+        picture.shift = {0, 0}
+        picture.width = icon_size
+        picture.height = icon_size
+        picture.scale = 16 / icon_size
+        picture.icon = nil
+        picture.icon_size = nil
+        picture.icon_mipmaps = nil
+        pictures[#pictures + 1] = picture
+    end
+    prototype.pictures = pictures
+end
+
 local demon_essence_icons = {}
 local demon_pincer_icons = {}
 local demon_scale_icons = {}
@@ -39,13 +75,20 @@ for i = 1, 12 do
 end
 
 data:extend({
+    {
+        type = "item",
+        name = "ad-drill-head-mk1",
+        stack_size = 10,
+        icon = "__archdemons__/Graphics/drill-heads/ad-drill.png",
+        icon_size = 128,
+        rocket_launch_product = {name = "ad-demon-essence", amount = 50}
+    },
 	{
         type = "item",
         name = "ad-demon-heart",
         stack_size = 50,
         icon = "__archdemons__/Graphics/demon-heart/icon.png",
         icon_size = 64,
-        rocket_launch_product = {name = "ad-demon-essence", amount = 20}
     },
 	{
         type = "item",
@@ -71,7 +114,6 @@ data:extend({
         icon = "__archdemons__/Graphics/demon-pincer/0001.png",
         icon_size = 64,
         pictures = demon_pincer_icons,
-        rocket_launch_product = {name = "ad-demon-essence", amount = 5}
     },
     {
         type = "item",
@@ -79,7 +121,6 @@ data:extend({
         stack_size = 50,
         icon = "__archdemons__/Graphics/demon-brain/icon.png",
         icon_size = 64,
-        rocket_launch_product = {name = "ad-demon-essence", amount = 10}
     },
     {
         type = "item",
@@ -88,7 +129,6 @@ data:extend({
         icon = "__archdemons__/Graphics/demon-scale/0005.png",
         icon_size = 64,
         pictures = demon_scale_icons,
-        rocket_launch_product = {name = "ad-demon-essence", amount = 2}
     },
     {
         type = "item",
@@ -99,3 +139,5 @@ data:extend({
         mipmaps = 4
     }
 })
+
+make_item_glowing(data.raw.item["ad-drill-head-mk1"])

@@ -32,6 +32,36 @@ local variable_name = { --WHY????
         enabled = true,
         result = "ad-portal-drill"
     },
+    --drill head mk1
+    {
+        type = "recipe",
+        name = "ad-drill-head-mk1",
+        category = "crafting",
+        subgroup = "production-machine",
+        icon = "__archdemons__/Graphics/drill-heads/ad-drill.png",
+        icon_size = 128,
+        ingredients = {
+            {"iron-plate",10},
+            {"steel-plate",2},
+            {"ad-demon-essence",5},
+            {"ad-demon-pincer",2}
+        },
+        enabled = true,
+        result = "ad-portal-drill"
+    },
+    --dummy summoning
+    {
+        type = "recipe",
+        name = "ad-summoning-ritual",
+        category = "ad-summoning",
+        subgroup = "production-machine",
+        icon = "__archdemons__/Graphics/nil.png",
+        icon_size = 1,
+        ingredients = {},
+        results = {},
+        enabled = true,
+        energy_required=10
+    },
     --demonic artificer
     {
         type = "recipe",

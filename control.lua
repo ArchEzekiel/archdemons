@@ -1,22 +1,26 @@
-local function register_drill(drill)
-    drill.force = game.forces["ad-drill"]
-    global.registeredDrills[drill.unit_number] = drill
+local function replace_drill(input)
+    local drill = input --[[@as LuaEntity]]
+    local pos = drill.position
+    local surface = game.surfaces[drill.surface_index]
+    drill.destroy({raise_destroy = false})
+    surface.create_entity{name = "ad-artificial-portal", position = pos, force = game.forces["ad-drill"], raise_built = false}
 end
 
 script.on_event(defines.events.on_built_entity,function(event)
-    register_drill(event.created_entity)end,
+    replace_drill(event.created_entity)end,
 {{filter="name", name="ad-portal-drill"}})
 script.on_event(defines.events.on_robot_built_entity,function(event)
-    register_drill(event.created_entity)end,
+    replace_drill(event.created_entity)end,
 {{filter="name", name="ad-portal-drill"}})
 
 local function calcQuality(item)
-    local sacrifices = {["ad-demon-scale"]=2, ["ad-demon-pincer"]=3, ["ad-demon-essence"]=4, ["ad-demon-brain"]=5, ["ad-demon-heart"]=6}
+    local sacrifices = {["ad-drill-head-mk1"]=2}
     for x, y in pairs(sacrifices) do
         if x == item then
             return y
         end
     end
+    return 0
 end
 
 local function calcQuantity(evolution, weights)
@@ -67,7 +71,7 @@ script.on_init(function()
     game.forces["ad-drill"].set_friend("enemy", true)
     game.forces["player"].set_friend("ad-drill", true)
     game.forces["enemy"].set_friend("ad-drill", true)
-    global.registeredDrills = {} --[[@as table<LuaEntity>]]
+    --global.registeredDrills = {} --[[@as table<LuaEntity>]]
     --registeredDrills[unit-number] = entity
 end)
 
@@ -146,7 +150,7 @@ script.on_event(defines.events.on_chunk_generated, function(event)
                 name = "ad-portal-fissure",
                 position = avg_position(biter_bases),
                 force = "neutral",
-                amount = math.sqrt((map_position.x * map_position.x) + (map_position.y * map_position.y))
+                amount = 1 --math.sqrt((map_position.x * map_position.x) + (map_position.y * map_position.y))
             }
         end
     end
