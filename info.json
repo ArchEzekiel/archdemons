@@ -1,0 +1,11 @@
+{
+	"name": "archdemons",
+	"version": "0.0.4",
+	"title": "Arch-Demons",
+	"author": "ArchEzekiel",
+	"factorio_version": "1.1",
+	"contact": "TBD",
+	"homepage": "",
+	"description": "A reworking of the relationship between progress and combat. No longer will biters just be a pain, they will be an integral part of infrastructure and progress",
+	"dependencies": ["stdlib"]
+}

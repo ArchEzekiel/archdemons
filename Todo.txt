@@ -1,0 +1,31 @@
+Large Change
+- Instead of an Artificial Portal, instead It is a Portal Drill
+- Instead of spawning enemies as it runs, it instead will spawn biter bases and worms around it
+- Drills on top of naturally occuring portals, to extract the Portal Fragments
+- Portal fragments need to be processed in a Solid Processing Chamber, into Demon Essence
+- Naturally occuring portals spawn as a part of biter swarms
+- Add three tiers of drill head to replace electricty, as a fuel source for the drills
+
+Implement Natural Portal
+Figure Out Science changes
+- Make a new science lab for just Military
+- Make a new science pack that doesnt replace Military
+- Make Multiple military Pack Tiers
+- Replace Military Science
+- 1 Arch Science 50 Automation 50 Logistic 50 Chemical Science... x 2000...
+    -> Really Good Upgrades
+    - T4 modules
+    - Upgraded Beacon
+    - New OP Turrets
+    - Turret Damage
+    - Unlock Laser Turrets
+    - Portal Productivity
+    - Artificer Productivity
+
+Late Addition: Friendly Units
+Mid Priority:
+
+Low Priority: 
+-Artificial Portal Locale
+-Remove Ritual from crafting menu
+-Look into "graceful" handling of game.force.enemy incase deleted
