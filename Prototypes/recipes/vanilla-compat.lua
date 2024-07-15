@@ -1,3 +1,17 @@
+--[[@as data.RecipePrototype]]
+local alt_ammo_recipe = table.deepcopy(data.raw["recipe"]["firearm-magazine"])
+alt_ammo_recipe.name = "ad-improved-firearm-magazine"
+table.insert(alt_ammo_recipe.ingredients, {"ad-demon-essence",1})
+alt_ammo_recipe.result_count = 4
+data:extend{alt_ammo_recipe}
+
+data.raw["recipe"]["military-science-pack"].ingredients[#data.raw["recipe"]["military-science-pack"].ingredients + 1] = {type = "item", name = "ad-demon-essence", amount = 5}
+for x, y in pairs(data.raw["recipe"]["military-science-pack"].ingredients) do
+    if y[1] == "stone-wall" then
+        table.remove(data.raw["recipe"]["military-science-pack"].ingredients, x)
+    end
+end
+
 --TODO: Make the table of loot modifyable to other mods, so that they can add their own custom loot
 function CalculateDiff(inp)
     return {
@@ -28,6 +42,7 @@ function CalculateDiff(inp)
         }
     }
 end
+
 function TableIns(key, tbl2, len)
     data.raw.unit[key].loot = data.raw.unit[key].loot or {}
     local loot = {}
@@ -35,7 +50,6 @@ function TableIns(key, tbl2, len)
         data.raw.unit[key].loot[#data.raw.unit[key].loot + 1] = tbl2[i]
     end
 end
-
 
 Noob_Diff = CalculateDiff({0.6, 0.3, 0.15, 0.1, 0.05})
 Low_Diff = CalculateDiff({0.7, 0.35, 0.2, 0.15, 0.1})

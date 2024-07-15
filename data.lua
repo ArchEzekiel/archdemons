@@ -1,91 +1,49 @@
-require("items")
-require("buildings")
-require("recipes")
-require("entities")
-require("portal-fissure")
+require("prototypes.buildings.demonic-artificer")
+require("prototypes.buildings.dummy-harvester")
+require("prototypes.buildings.portal-harvester")
+require("prototypes.buildings.solid-processing-unit")
 
-exclusive_resources = --[[@as table<string, integer>]]
-{--list of things that get exclusive recipes but are less essence efficient
-    ["iron-ore"] = {type = "item", scale = 100},
-    ["copper-ore"] =  {type = "item", scale = 100}
+require("prototypes.items.drill-head-mk1")
+require("prototypes.items.mob-drops")
+
+require("prototypes.recipes.solid-processing-unit")
+require("prototypes.recipes.vanilla-compat")
+
+require("prototypes.resources.portal-fissure")
+
+require("prototypes.categories")
+
+---Arch_Demons global table containing variables and functions intended for compatability
+Arch_Demons =
+{
+  ---list of things that get exclusive recipes but are less essence efficient
+  exclusive_resources = {},--[[@as [string]<string, integer>]]
+  ---list of things that are also exclusive but arent in the "mix" recipe 
+  excluded_resources  = {},--[[@as [string]<string, integer>]]
+  ---list of all affected resources
+  affected_resources  = {},--[[@as [string]<string, integer>]]
+
+  ---initializing global function to be used to add resources to different resource tables, table format is as follows: 
+  ---["resource-name"] = {type, scale}
+  ---@param t table exclusive_resources, excluded_resources, or affected_resources are the intended tables
+  ---@param resource_name string name of resource being added
+  ---@param type string type of resource - "fluid" or "item" only
+  ---@param scale int scale of output, 100 equals unchanged from my default
+  add_resource = function(t, resource_name, type, scale)
+    if type ~= "fluid" and type ~= "item" then error("add_resource() only takes \"fluid\" or \"item\" as inputs") end
+    t[resource_name] = {type = type, scale = scale}
+  end
 }
-excluded_resources =
-{--list of things that are also exclusive but arent in the "mix" recipe
-    ["uranium-ore"] = {type = "item", scale = 80},
-    ["crude-oil"] = {type = "fluid", scale = 100}
-}
 
---if mod exists
---add to lists
+Arch_Demons.add_resource(Arch_Demons.exclusive_resources, "iron-ore", "item", 100)
+Arch_Demons.add_resource(Arch_Demons.exclusive_resources, "copper-ore", "item", 100)
 
-local ad_tile = table.deepcopy(data.raw["tile"]["hazard-concrete-left"])
-ad_tile.name = "ad-hazard"
+Arch_Demons.add_resource(Arch_Demons.excluded_resources, "uranium-ore", "item", 80)
+Arch_Demons.add_resource(Arch_Demons.excluded_resources, "crude-oil", "fluid", 100)
 
-data:extend({
-  ad_tile,
-  {
-    type = "item-subgroup",
-    name = "ad-part-crushing",
-    group = "intermediate-products"
-  },
-  {
-    type = "fuel-category",
-    name = "ad-essence"
-  },
-  {
-    type = "fuel-category",
-    name = "ad-drilling"
-  },
-  {
-    type = "recipe-category",
-    subgroup = "rocket-building",
-    name = "ad-summoning"
-  },
-  {
-    type = "recipe-category",
-    subgroup = "rocket-building",
-    name = "ad-drilling"
-  },
-  {
-    type = "recipe-category",
-    subgroup = "crafting-category",
-    name = "ad-artificer-crafting"
-  },
-  {
-    type = "recipe-category",
-    subgroup = "crafting-category",
-    name = "ad-crushing"
-  },
-  {
-    type = "rocket-silo-rocket",
-    name = "ad-dummy-rocket",
-    flags = {"not-on-map"},
-    rocket_sprite	= {size = 1, filename = "__archdemons__/graphics/nil.png"},
-    rocket_shadow_sprite = {size = 1, filename = "__archdemons__/graphics/nil.png"},
-    rocket_glare_overlay_sprite	= {size = 1, filename = "__archdemons__/graphics/nil.png"},
-    rocket_smoke_bottom1_animation = {size = 1, filename = "__archdemons__/graphics/nil.png"},
-    rocket_smoke_bottom2_animation = {size = 1, filename = "__archdemons__/graphics/nil.png"},
-    rocket_smoke_top1_animation = {size = 1, filename = "__archdemons__/graphics/nil.png"},
-    rocket_smoke_top2_animation = {size = 1, filename = "__archdemons__/graphics/nil.png"},
-    rocket_smoke_top3_animation = {size = 1, filename = "__archdemons__/graphics/nil.png"},
-    rocket_flame_animation = {size = 1, filename = "__archdemons__/graphics/nil.png"},
-    rocket_flame_left_animation = {size = 1, filename = "__archdemons__/graphics/nil.png"},
-    rocket_flame_right_animation = {size = 1, filename = "__archdemons__/graphics/nil.png"},
-    rocket_rise_offset = {0,0},
-    rocket_flame_left_rotation = 0,
-    rocket_flame_right_rotation = 0,
-    rocket_render_layer_switch_distance = 0,
-    full_render_layer_switch_distance = 0,
-    rocket_launch_offset = {0,0},
-    effects_fade_in_start_distance =0,
-    effects_fade_in_end_distance =0,
-    shadow_fade_out_start_ratio =0,
-    shadow_fade_out_end_ratio =0,
-    rocket_visible_distance_from_center = 0,
-    rising_speed = 100,
-    engine_starting_speed =100,
-    flying_speed = 100,
-    flying_acceleration = 100,
-    inventory_size = 1,
-  }
-})
+Arch_Demons.add_resource(Arch_Demons.affected_resources, "iron-ore", "item", 100)
+Arch_Demons.add_resource(Arch_Demons.affected_resources, "copper-ore", "item", 100)
+Arch_Demons.add_resource(Arch_Demons.affected_resources, "uranium-ore", "item", 80)
+Arch_Demons.add_resource(Arch_Demons.affected_resources, "crude-oil", "fluid", 100)
+Arch_Demons.add_resource(Arch_Demons.affected_resources, "stone", "item", 100)
+Arch_Demons.add_resource(Arch_Demons.affected_resources, "coal", "item", 100)

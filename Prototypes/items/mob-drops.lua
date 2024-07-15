@@ -1,39 +1,3 @@
----adds a glow layer to any item prototype.
----@param prototype data.ItemPrototype
-make_item_glowing = function(prototype)
-    if not prototype then
-        error('No prototype provided')
-    end
-    if prototype.pictures then
-        for _, picture in pairs(prototype.pictures) do
-            picture.draw_as_glow = true
-        end
-        return
-    end
-    if prototype.icon and not prototype.icons then
-        prototype.icons = {{icon = prototype.icon, icon_size = prototype.icon_size, icon_mipmaps = prototype.icon_mipmaps}}
-        prototype.icon = nil
-    end
-    if not prototype.icons then
-        error('No icon found for ' .. prototype.name)
-    end
-    local pictures = {}
-    for _, picture in pairs(table.deepcopy(prototype.icons)) do
-        picture.draw_as_glow = true
-        local icon_size = picture.icon_size or prototype.icon_size
-        picture.filename = picture.icon
-        picture.shift = {0, 0}
-        picture.width = icon_size
-        picture.height = icon_size
-        picture.scale = 16 / icon_size
-        picture.icon = nil
-        picture.icon_size = nil
-        picture.icon_mipmaps = nil
-        pictures[#pictures + 1] = picture
-    end
-    prototype.pictures = pictures
-end
-
 local demon_essence_icons = {}
 local demon_pincer_icons = {}
 local demon_scale_icons = {}
@@ -77,25 +41,8 @@ end
 data:extend({
     {
         type = "item",
-        name = "ad-drill-head-mk1",
-        stack_size = 10,
-        icon = "__archdemons__/Graphics/drill-heads/ad-drill.png",
-        icon_size = 128,
-        fuel_value = "66.6MJ",
-        fuel_category = "ad-drilling"
-    },
-	{
-        type = "item",
-        name = "ad-dummy-rocket",
-        stack_size = 1,
-        icon = "__archdemons__/Graphics/nil.png",
-        icon_size = 1,
-        group = "intermediate-products"
-    },
-    {
-        type = "item",
         name = "ad-demon-essence",
-        stack_size = 200,
+        stack_size = 1000,
         icon = "__archdemons__/Graphics/demon-essence/0001.png",
         icon_size = 64,
         pictures = demon_essence_icons,
@@ -145,16 +92,5 @@ data:extend({
         rocket_launch_product = {name = "ad-demon-essence", amount = 4},
         group = "intermediate-products",
         subgroup = "ad-part-crushing"
-    },
-    {
-        type = "item",
-        name = "ad-portal-core",
-        stack_size = 50,
-        icon = "__archdemons__/Graphics/portal-core/icon.png",
-        icon_size = 64,
-        mipmaps = 4,
-        group = "intermediate-products"
     }
 })
-
-make_item_glowing(data.raw.item["ad-drill-head-mk1"])

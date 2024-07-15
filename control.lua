@@ -2,33 +2,16 @@ local function replace_drill(input)
     local drill = input --[[@as LuaEntity]]
     local pos = drill.position
     local surface = game.surfaces[drill.surface_index]
-    surface.create_entity{name = "ad-artificial-portal", position = pos, force = drill.force, raise_built = false}
+    surface.create_entity{name = "ad-portal-harvester", position = pos, force = drill.force, raise_built = false}
     drill.destroy({raise_destroy = false})
 end
 
 script.on_event(defines.events.on_built_entity,function(event)
     replace_drill(event.created_entity)end,
-{{filter="name", name="ad-portal-drill"}})
+{{filter="name", name="ad-dummy-harvester"}})
 script.on_event(defines.events.on_robot_built_entity,function(event)
     replace_drill(event.created_entity)end,
-{{filter="name", name="ad-portal-drill"}})
-
-local function calcQuality(item)
-    local sacrifices =
-    {
-        ["ad-demon-essence"]=2,
-        ["ad-demon-scale"]  =3,
-        ["ad-demon-pincer"] =4,
-        ["ad-demon-brain"]  =5,
-        ["ad-demon-heart"]  =6
-    }
-    for x, y in pairs(sacrifices) do
-        if x == item then
-            return y
-        end
-    end
-    return 1
-end
+{{filter="name", name="ad-dummy-harvester"}})
 
 local function calcQuantity(evolution, weights)
     local last_weight = 0
@@ -71,12 +54,6 @@ local function processSpawning(evolution, spawner)
 end
 
 script.on_init(function()
-    --[[
-    game.create_force("ad-drill")
-    game.forces["ad-drill"].set_friend("player", true)
-    game.forces["ad-drill"].set_friend("enemy", true)
-    game.forces["player"].set_friend("ad-drill", true)
-    game.forces["enemy"].set_friend("ad-drill", true)]]
     global.unit_spawners = {} --[[@as table<LuaEntity>]]
     for _, x in pairs(game.entity_prototypes) do
         if x.result_units ~= nil then
@@ -88,7 +65,7 @@ end)
 script.on_event(defines.events.on_rocket_launched, function(event--[[@as EventData.on_rocket_launched]])
     local rocket = event.rocket_silo --[[@as LuaEntity]]
     if rocket and rocket.name == "ad-artificial-portal" then
-        local multiplier = rocket.get_inventory(defines.inventory.rocket_silo_result)[1].count ^ 2
+        local multiplier = rocket.get_inventory(defines.inventory.rocket_silo_result)[1].count ^ 3
         local evolution = game.forces.enemy.evolution_factor
         local pollution = game.surfaces[rocket.surface_index].get_pollution(rocket.position)
         game.surfaces[rocket.surface_index].pollute(rocket.position,-pollution)
