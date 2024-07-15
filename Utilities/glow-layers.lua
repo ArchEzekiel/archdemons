@@ -17,6 +17,7 @@ make_item_glowing = function(prototype)
     if not prototype.icons then
         error('No icon found for ' .. prototype.name)
     end
+
     local pictures = {}
     for _, picture in pairs(table.deepcopy(prototype.icons)) do
         picture.draw_as_glow = true
@@ -32,4 +33,4 @@ make_item_glowing = function(prototype)
         pictures[#pictures + 1] = picture
     end
     prototype.pictures = pictures
-  end
+end
