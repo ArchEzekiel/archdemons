@@ -2,6 +2,7 @@ require("prototypes.buildings.demonic-artificer")
 require("prototypes.buildings.dummy-harvester")
 require("prototypes.buildings.portal-harvester")
 require("prototypes.buildings.solid-processing-unit")
+require("prototypes.buildings.crust-cracker")
 
 require("prototypes.items.drill-head-mk1")
 require("prototypes.items.mob-drops")
