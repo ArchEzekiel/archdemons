@@ -4,11 +4,30 @@ require("recipes")
 require("entities")
 require("portal-fissure")
 
+exclusive_resources = --[[@as table<string, integer>]]
+{--list of things that get exclusive recipes but are less essence efficient
+    ["iron-ore"] = {type = "item", scale = 100},
+    ["copper-ore"] =  {type = "item", scale = 100}
+}
+excluded_resources =
+{--list of things that are also exclusive but arent in the "mix" recipe
+    ["uranium-ore"] = {type = "item", scale = 80},
+    ["crude-oil"] = {type = "fluid", scale = 100}
+}
+
+--if mod exists
+--add to lists
+
 local ad_tile = table.deepcopy(data.raw["tile"]["hazard-concrete-left"])
 ad_tile.name = "ad-hazard"
 
 data:extend({
   ad_tile,
+  {
+    type = "item-subgroup",
+    name = "ad-part-crushing",
+    group = "intermediate-products"
+  },
   {
     type = "fuel-category",
     name = "ad-essence"

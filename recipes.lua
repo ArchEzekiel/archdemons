@@ -1,3 +1,12 @@
+--[[@as data.RecipePrototype]]
+local alt_ammo_recipe = table.deepcopy(data.raw["recipe"]["firearm-magazine"])
+alt_ammo_recipe.name = "ad-improved-firearm-magazine"
+table.insert(alt_ammo_recipe.ingredients, {"ad-demon-essence",1})
+alt_ammo_recipe.result_count = 4
+
+data:extend{alt_ammo_recipe}
+
+---@type data.RecipePrototype[]
 local variable_name = { --WHY????
     --[[artificial portal
     {
@@ -60,6 +69,7 @@ local variable_name = { --WHY????
         ingredients = {},
         results = {},
         enabled = true,
+        hidden = false,
         energy_required=10
     },
     --demonic artificer
@@ -93,11 +103,13 @@ local variable_name = { --WHY????
         type = "recipe",
         name = "ad-basic-scale-to-essence",
         category = "ad-crushing",
-        subgroup = "raw-resource",
+        subgroup = "ad-part-crushing",
         icon = "__archdemons__/Graphics/recipes/BasicScaleToEssence.png",
         icon_size = 64,
         ingredients = {{"ad-demon-scale",5}},
         enabled = true,
+        hidden = false,
+        energy_required = 1,
         results = {{type="item", name="ad-demon-essence",amount_min=0,amount_max=5}},
         show_amount_in_title = false,
         always_show_products = true,
@@ -108,11 +120,13 @@ local variable_name = { --WHY????
         type = "recipe",
         name = "ad-basic-pincer-to-essence",
         category = "ad-crushing",
-        subgroup = "raw-resource",
+        subgroup = "ad-part-crushing",
         icon = "__archdemons__/Graphics/recipes/BasicPincerToEssence.png",
         icon_size = 64,
         ingredients = {{"ad-demon-pincer",4}},
         enabled = true,
+        hidden = false,
+        energy_required = 1,
         results = {{type="item", name="ad-demon-essence", amount_min=0,amount_max=5}},
         show_amount_in_title = false,
         always_show_products = true,
@@ -123,11 +137,13 @@ local variable_name = { --WHY????
         type = "recipe",
         name = "ad-basic-brain-to-essence",
         category = "ad-crushing",
-        subgroup = "raw-resource",
+        subgroup = "ad-part-crushing",
         icon = "__archdemons__/Graphics/recipes/BasicBrainToEssence.png",
         icon_size = 64,
         ingredients = {{"ad-demon-brain",3}},
         enabled = true,
+        hidden = false,
+        energy_required = 1,
         results = {{type="item", name="ad-demon-essence", amount_min=0,amount_max=5}},
         show_amount_in_title = false,
         always_show_products = true,
@@ -138,73 +154,17 @@ local variable_name = { --WHY????
         type = "recipe",
         name = "ad-basic-heart-to-essence",
         category = "ad-crushing",
-        subgroup = "raw-resource",
+        subgroup = "ad-part-crushing",
         icon = "__archdemons__/Graphics/recipes/BasicHeartToEssence.png",
         icon_size = 64,
         ingredients = {{"ad-demon-heart",2}},
         enabled = true,
+        hidden = false,
+        energy_required = 1,
         results = {{type="item", name="ad-demon-essence", amount_min=0,amount_max=10}},
         show_amount_in_title = false,
         always_show_products = true,
         order="ad-essence[4]"
-    },
-    --essence to ores
-    {
-        type = "recipe",
-        name = "ad-basic-essence-to-ores",
-        category = "ad-crushing",
-        subgroup = "raw-resource",
-        icon = "__archdemons__/Graphics/recipes/EssenceToOresRecipe1.png",
-        icon_size = 64,
-        mipmaps = 4,
-        ingredients = {{"ad-demon-essence",50}},
-        enabled = true,
-        results = {
-            {type="item", name="iron-ore", amount_min=25,amount_max=75,},
-            {type="item", name="copper-ore", amount_min=25,amount_max=75,},
-            {type="item", name="coal", amount_min=25,amount_max=75,},
-        },
-        energy_required=10,
-        show_amount_in_title = false,
-        always_show_products = true,
-        order="ad-essence[5]"
-    },
-    --essence to iron
-    {
-        type = "recipe",
-        name = "ad-basic-essence-to-iron-ore",
-        category = "ad-crushing",
-        subgroup = "raw-resource",
-        icon = "__archdemons__/Graphics/recipes/EssenceToIronRecipe1.png",
-        icon_size = 64,
-        mipmaps = 4,
-        ingredients = {{"ad-demon-essence",50}},
-        enabled = true,
-        results = {
-            {type="item", name="iron-ore", amount_min=50,amount_max=100,},
-        },
-        energy_required=10,
-        show_amount_in_title = false,
-        always_show_products = true,
-        order="ad-essence[6]"
-    },
-    --essence to copper ore
-    {
-        type = "recipe",
-        name = "ad-basic-essence-to-copper-ore",
-        category = "ad-crushing",
-        subgroup = "raw-resource",
-        icon = "__archdemons__/Graphics/recipes/EssenceToCopperRecipe1.png",
-        icon_size = 64,
-        ingredients = {{"ad-demon-essence",50}},
-        enabled = true,
-        results = {
-            {type="item", name="copper-ore", amount_min=50,amount_max=100,},
-        },
-        energy_required=10,
-        show_amount_in_title = false,
-        always_show_products = true,
-        order="ad-essence[7]"
     },
     --portal core
     {
@@ -221,6 +181,7 @@ local variable_name = { --WHY????
             {"ad-demon-essence",50}
         },
         enabled = true,
+        hidden = false,
         result = "ad-portal-core",
         energy_required=10,
         show_amount_in_title = false,

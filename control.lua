@@ -2,8 +2,8 @@ local function replace_drill(input)
     local drill = input --[[@as LuaEntity]]
     local pos = drill.position
     local surface = game.surfaces[drill.surface_index]
+    surface.create_entity{name = "ad-artificial-portal", position = pos, force = drill.force, raise_built = false}
     drill.destroy({raise_destroy = false})
-    surface.create_entity{name = "ad-artificial-portal", position = pos, force = game.forces["ad-drill"], raise_built = false}
 end
 
 script.on_event(defines.events.on_built_entity,function(event)
@@ -14,13 +14,20 @@ script.on_event(defines.events.on_robot_built_entity,function(event)
 {{filter="name", name="ad-portal-drill"}})
 
 local function calcQuality(item)
-    local sacrifices = {["ad-drill-head-mk1"]=2}
+    local sacrifices =
+    {
+        ["ad-demon-essence"]=2,
+        ["ad-demon-scale"]  =3,
+        ["ad-demon-pincer"] =4,
+        ["ad-demon-brain"]  =5,
+        ["ad-demon-heart"]  =6
+    }
     for x, y in pairs(sacrifices) do
         if x == item then
             return y
         end
     end
-    return 0
+    return 1
 end
 
 local function calcQuantity(evolution, weights)
@@ -36,13 +43,7 @@ local function calcQuantity(evolution, weights)
     return 0
 end
 
-local function calcSpawn(spawner)
-    local range_x = {spawner.bounding_box.left_top["x"], spawner.bounding_box.right_bottom["x"]}
-    local range_y = {spawner.bounding_box.left_top["y"], spawner.bounding_box.right_bottom["y"]}
-    local range_x_mod = (range_x[2] - range_x[1]) / 4
-    local range_y_mod = (range_y[2] - range_y[1]) / 4
-    range_x = {range_x[1] - range_x_mod, range_x[2] + range_x_mod}
-    range_y = {range_y[1] - range_y_mod, range_y[2] + range_y_mod}
+local function calcSpawn(spawner, range_x, range_y)
     local position = {}
     if math.random(2) == 1 then
         position = {x=(math.random() * (range_x[2] - range_x[1])) + range_x[1], y = range_y[math.random(2)]}
@@ -52,50 +53,51 @@ local function calcSpawn(spawner)
     return position
 end
 
-local function processSpawning(evolution, spawner, multiplier)
+local function processSpawning(evolution, spawner)
+    local range_x = {spawner.bounding_box.left_top["x"], spawner.bounding_box.right_bottom["x"]}
+    local range_y = {spawner.bounding_box.left_top["y"], spawner.bounding_box.right_bottom["y"]}
+    local range_x_mod = (range_x[2] - range_x[1]) / 4
+    local range_y_mod = (range_y[2] - range_y[1]) / 4
+    range_x = {range_x[1] - range_x_mod, range_x[2] + range_x_mod}
+    range_y = {range_y[1] - range_y_mod, range_y[2] + range_y_mod}
     --Deprecated Spawning, moving over to spawning bases instead
-    for _, x in pairs(game.entity_prototypes) do
-        if x.result_units ~= nil then
-            for _, y in pairs(x.result_units) do
-                for i = 1, calcQuantity(evolution, y["spawn_points"]) * multiplier, 1 do
-                    game.surfaces[spawner.surface_index].create_entity{name = y["unit"], position = calcSpawn(spawner), force = game.forces.enemy}
-                end
+    for _, unit_spawner in pairs(global.unit_spawners) do
+        for _, y in pairs(unit_spawner.result_units) do
+            for i = 1, calcQuantity(evolution, y["spawn_points"]), 1 do
+                game.surfaces[spawner.surface_index].create_entity{name = y["unit"], position = calcSpawn(spawner, range_x, range_y), force = "enemy"}
             end
         end
     end
 end
 
 script.on_init(function()
+    --[[
     game.create_force("ad-drill")
     game.forces["ad-drill"].set_friend("player", true)
     game.forces["ad-drill"].set_friend("enemy", true)
     game.forces["player"].set_friend("ad-drill", true)
-    game.forces["enemy"].set_friend("ad-drill", true)
-    --global.registeredDrills = {} --[[@as table<LuaEntity>]]
-    --registeredDrills[unit-number] = entity
+    game.forces["enemy"].set_friend("ad-drill", true)]]
+    global.unit_spawners = {} --[[@as table<LuaEntity>]]
+    for _, x in pairs(game.entity_prototypes) do
+        if x.result_units ~= nil then
+            table.insert(global.unit_spawners, x)
+        end
+    end
 end)
 
-script.on_event(defines.events.on_rocket_launched, function(event)
-    if event.rocket_silo.name == "ad-artificial-portal" and event.rocket_silo.valid then
-        local multiplier = 0.0
-        local quality = 1
-        if event.rocket.get_inventory(defines.inventory.rocket).is_empty() == false then
-            for x, y in pairs(event.rocket.get_inventory(defines.inventory.rocket).get_contents()) do
-                quality = calcQuality(x)
-                multiplier = y
-            end
-        end
+script.on_event(defines.events.on_rocket_launched, function(event--[[@as EventData.on_rocket_launched]])
+    local rocket = event.rocket_silo --[[@as LuaEntity]]
+    if rocket and rocket.name == "ad-artificial-portal" then
+        local multiplier = rocket.get_inventory(defines.inventory.rocket_silo_result)[1].count ^ 2
         local evolution = game.forces.enemy.evolution_factor
-        local pollution = game.surfaces[event.rocket_silo.surface_index].get_pollution(event.rocket_silo.position)
-        game.surfaces[event.rocket_silo.surface_index].pollute(event.rocket_silo.position,-pollution)
+        local pollution = game.surfaces[rocket.surface_index].get_pollution(rocket.position)
+        game.surfaces[rocket.surface_index].pollute(rocket.position,-pollution)
         multiplier = multiplier + (pollution / 100)
-        multiplier = (multiplier > 5) and 5 or multiplier
-        while quality > 0 do
-            processSpawning(evolution, event.rocket_silo, multiplier)
+        repeat
+            processSpawning(evolution, rocket)
+            multiplier = multiplier * evolution
             evolution = evolution - (evolution / 5)
-            quality = quality - 1
-            multiplier = multiplier / 2
-        end
+        until multiplier < 1
     end
 end)
 
@@ -133,6 +135,7 @@ local function avg_position(spawners)
 end
 
 script.on_event(defines.events.on_chunk_generated, function(event)
+    --[[
     local map_position = {x = event.position.x * 32, y = event.position.y * 32}
     local biter_bases = event.surface.find_entities_filtered{
         area = {{map_position.x - 16, map_position.y - 16}, {map_position.x + 16, map_position.y + 16}},
@@ -153,5 +156,5 @@ script.on_event(defines.events.on_chunk_generated, function(event)
                 amount = 1 --math.sqrt((map_position.x * map_position.x) + (map_position.y * map_position.y))
             }
         end
-    end
+    end]]
 end)

@@ -174,12 +174,13 @@ data:extend({
 		subgroup = "production-machine",
 		max_health = 300,
 		energy_usage = "500KW",
-		crafting_speed = 2,
+		crafting_speed = 1,
 		crafting_categories = {"ad-crushing"},
 		energy_source = {
-			type = "electric",
-			buffer_capacity = "2MJ",
-			usage_priority = "secondary-input"
+			type = "burner",
+			fuel_inventory_size = 1,
+			fuel_category = "ad-essence",
+			emissions_per_minute = 10
 		},
 		fluid_boxes =
 		{
@@ -189,7 +190,7 @@ data:extend({
 				pipe_covers = pipecoverspictures(),
 				base_area = 10,
 				base_level = 1,
-				pipe_connections = {{ type = "output", position = {0, 1.5} }},
+				pipe_connections = {{ type = "output", position = {0, 2} }},
 				secondary_draw_orders = { north = -1 }
 			},
 			off_when_no_fluid_recipe = true
@@ -274,10 +275,11 @@ data:extend({
 		source_inventory_size = 1,
 		result_inventory_size = 1,
 		ingredient_count = 4,
-		energy_usage = "750kW",
+		energy_usage = "666kW",
 		energy_source = {
-			type = "electric",
-			usage_priority = "secondary-input"
+			type = "burner",
+			fuel_inventory_size = 1,
+			fuel_category = "ad-drilling"
 		},
 		emissions_per_second = -0.1,
 		active_energy_usage = "1J",

@@ -81,21 +81,16 @@ data:extend({
         stack_size = 10,
         icon = "__archdemons__/Graphics/drill-heads/ad-drill.png",
         icon_size = 128,
-        rocket_launch_product = {name = "ad-demon-essence", amount = 50}
-    },
-	{
-        type = "item",
-        name = "ad-demon-heart",
-        stack_size = 50,
-        icon = "__archdemons__/Graphics/demon-heart/icon.png",
-        icon_size = 64,
+        fuel_value = "66.6MJ",
+        fuel_category = "ad-drilling"
     },
 	{
         type = "item",
         name = "ad-dummy-rocket",
         stack_size = 1,
         icon = "__archdemons__/Graphics/nil.png",
-        icon_size = 1
+        icon_size = 1,
+        group = "intermediate-products"
     },
     {
         type = "item",
@@ -105,7 +100,19 @@ data:extend({
         icon_size = 64,
         pictures = demon_essence_icons,
         fuel_value = "10MJ",
-        fuel_category = "ad-essence"
+        fuel_category = "ad-essence",
+        group = "intermediate-products",
+        subgroup = "ad-part-crushing"
+    },
+	{
+        type = "item",
+        name = "ad-demon-heart",
+        stack_size = 50,
+        icon = "__archdemons__/Graphics/demon-heart/icon.png",
+        icon_size = 64,
+        rocket_launch_product = {name = "ad-demon-essence", amount = 10},
+        group = "intermediate-products",
+        subgroup = "ad-part-crushing"
     },
     {
         type = "item",
@@ -114,6 +121,9 @@ data:extend({
         icon = "__archdemons__/Graphics/demon-pincer/0001.png",
         icon_size = 64,
         pictures = demon_pincer_icons,
+        rocket_launch_product = {name = "ad-demon-essence", amount = 6},
+        group = "intermediate-products",
+        subgroup = "ad-part-crushing"
     },
     {
         type = "item",
@@ -121,6 +131,9 @@ data:extend({
         stack_size = 50,
         icon = "__archdemons__/Graphics/demon-brain/icon.png",
         icon_size = 64,
+        rocket_launch_product = {name = "ad-demon-essence", amount = 8},
+        group = "intermediate-products",
+        subgroup = "ad-part-crushing"
     },
     {
         type = "item",
@@ -129,6 +142,9 @@ data:extend({
         icon = "__archdemons__/Graphics/demon-scale/0005.png",
         icon_size = 64,
         pictures = demon_scale_icons,
+        rocket_launch_product = {name = "ad-demon-essence", amount = 4},
+        group = "intermediate-products",
+        subgroup = "ad-part-crushing"
     },
     {
         type = "item",
@@ -136,7 +152,8 @@ data:extend({
         stack_size = 50,
         icon = "__archdemons__/Graphics/portal-core/icon.png",
         icon_size = 64,
-        mipmaps = 4
+        mipmaps = 4,
+        group = "intermediate-products"
     }
 })
 
