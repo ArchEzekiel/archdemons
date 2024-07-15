@@ -64,7 +64,7 @@ end)
 
 script.on_event(defines.events.on_rocket_launched, function(event--[[@as EventData.on_rocket_launched]])
     local rocket = event.rocket_silo --[[@as LuaEntity]]
-    if rocket and rocket.name == "ad-artificial-portal" then
+    if rocket and rocket.name == "ad-portal-harvester" then
         local multiplier = rocket.get_inventory(defines.inventory.rocket_silo_result)[1].count ^ 3
         local evolution = game.forces.enemy.evolution_factor
         local pollution = game.surfaces[rocket.surface_index].get_pollution(rocket.position)
