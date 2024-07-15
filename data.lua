@@ -17,11 +17,14 @@ require("prototypes.categories")
 Arch_Demons =
 {
   ---list of things that get exclusive recipes but are less essence efficient
-  exclusive_resources = {},--[[@as [string]<string, integer>]]
+  ---@type table<string, table<string, integer>>
+  exclusive_resources = {},
   ---list of things that are also exclusive but arent in the "mix" recipe 
-  excluded_resources  = {},--[[@as [string]<string, integer>]]
+  ---@type table<string, table<string, integer>>
+  excluded_resources  = {},
   ---list of all affected resources
-  affected_resources  = {},--[[@as [string]<string, integer>]]
+  ---@type table<string, table<string, integer>>
+  affected_resources  = {},
 
   ---initializing global function to be used to add resources to different resource tables, table format is as follows: 
   ---["resource-name"] = {type, scale}
