@@ -24,7 +24,7 @@ data:extend{{
 	ingredients = {},
 	results = {},
 	enabled = true,
-	hidden = false,
+	hidden = true,
 	energy_required=10
 },
 {
