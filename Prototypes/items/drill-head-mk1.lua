@@ -1,7 +1,7 @@
-require("glow-layers")
+require("Utilities.glow-layers")
 
 data:extend{
-    {
+    {---@as data.ItemPrototype
         type = "item",
         name = "ad-drill-head-mk1",
         stack_size = 10,
