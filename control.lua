@@ -26,7 +26,7 @@ local function calcQuantity(evolution, weights)
     return 0
 end
 
-local function calcSpawn(spawner, range_x, range_y)
+local function calcSpawn(range_x, range_y)
     local position = {}
     if math.random(2) == 1 then
         position = {x=(math.random() * (range_x[2] - range_x[1])) + range_x[1], y = range_y[math.random(2)]}
@@ -45,9 +45,9 @@ local function processSpawning(evolution, spawner)
     range_y = {range_y[1] - range_y_mod, range_y[2] + range_y_mod}
     --Deprecated Spawning, moving over to spawning bases instead
     for _, unit_spawner in pairs(global.unit_spawners) do
-        for _, y in pairs(unit_spawner.result_units) do
-            for i = 1, calcQuantity(evolution, y["spawn_points"]), 1 do
-                game.surfaces[spawner.surface_index].create_entity{name = y["unit"], position = calcSpawn(spawner, range_x, range_y), force = "enemy"}
+        for _, unit in pairs(unit_spawner.result_units) do
+            for i = 1, calcQuantity(evolution, unit["spawn_points"]), 1 do
+                game.surfaces[spawner.surface_index].create_entity{name = unit["unit"], position = calcSpawn(range_x, range_y), force = "enemy"}
             end
         end
     end
