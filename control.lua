@@ -76,6 +76,25 @@ script.on_event(defines.events.on_rocket_launched, function(event--[[@as EventDa
             evolution = evolution - (evolution / 5)
         until multiplier < 1
     end
+    if rocket and rocket.name == "ad-crust-cracker" then
+        local position = rocket.position
+        rocket.surface.create_entity
+        {
+            name = "ad-portal-fissure",
+            position = position,
+            force = "neutral",
+            amount = 666
+        }
+        rocket.surface.create_entity
+        {
+            name = "atomic-rocket",
+            position = position,
+            target = position,
+            speed = 1,
+            source = rocket
+        }
+        rocket.destroy()
+    end
 end)
 
 local index = 1

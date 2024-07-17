@@ -1,23 +1,39 @@
 
 
-data:extend{{
+data:extend{
+{
+	type = "recipe",
+	name = "ad-crust-cracker",
+	category = "crafting",
+	subgroup = "production-machine",
+	icon = "__archdemons__/Graphics/crust-cracker/icon.png",
+	icon_size = 256,
+	ingredients = {
+		{"iron-plate",100},
+		{"steel-plate",100},
+		{"copper-cable",20}
+	},
+	enabled = true,
+	result = "ad-crust-cracker"
+},
+{
 	type = "item",
 	name = "ad-crust-cracker",
 	stack_size = 5,
-	icon = "__archdemons__/Graphics/crust-crusher/icon.png",
+	icon = "__archdemons__/Graphics/crust-cracker/icon.png",
 	icon_size = 256,
 	place_result = "ad-crust-cracker"
 },
 {
 	type = "rocket-silo",
 	name = "ad-crust-cracker",
-	icon = "__archdemons__/Graphics/crust-crusher/icon.png",
+	icon = "__archdemons__/Graphics/crust-cracker/icon.png",
 	icon_size = 256,
 	subgroup = "production-machine",
 	animation = {
 		layers = {
 			{
-				filename = "__archdemons__/Graphics/crust-crusher/icon.png",
+				filename = "__archdemons__/Graphics/crust-cracker/icon.png",
 				frame_count = 1,
 				line_length = 1,
 				animation_speed = 0.5,
@@ -42,7 +58,8 @@ data:extend{{
 	collision_box = {{-2.4,-2.4}, {2.4,2.4}},
 	selection_box = {{-2.4,-2.4}, {2.4,2.4}},
 	flags = {"placeable-player", "player-creation"},
-	minable = {mining_time = 0.5, result = "ad-dummy-harvester"},
+	collision_mask = {"resource-layer"},
+	minable = {mining_time = 0.5, result = "ad-crust-cracker"},
 	max_health = 1000,
 	crafting_speed = 0.1,
 	fixed_recipe = "ad-summoning-ritual",
@@ -50,13 +67,13 @@ data:extend{{
 	source_inventory_size = 1,
 	result_inventory_size = 1,
 	ingredient_count = 4,
-	energy_usage = "33.33MW",
+	energy_usage = "3.33MW",
 	energy_source = {
 		type = "burner",
 		fuel_inventory_size = 1,
 		fuel_category = "ad-drilling"
 	},
-	emissions_per_second = -0.1,
+	emissions_per_second = 200,
 	active_energy_usage = "1J",
 	lamp_energy_usage = "0J",
 	rocket_entity = "ad-dummy-rocket",

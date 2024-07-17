@@ -84,7 +84,7 @@ data:extend{{
 		fuel_inventory_size = 1,
 		fuel_category = "ad-drilling"
 	},
-	emissions_per_second = -0.1,
+	emissions_per_second = 100,
 	active_energy_usage = "1J",
 	lamp_energy_usage = "0J",
 	rocket_entity = "ad-dummy-rocket",
