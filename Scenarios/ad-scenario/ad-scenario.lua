@@ -21,8 +21,8 @@ end
 local structures = function()
     return
     {
-        {name = "ad-portal-fissure", position = {5, 0}, force = "neutral"},
-        {name = "ad-artificial-portal", position = {5, 0}},
+        {name = "ad-portal-fissure", position = {5, 0}, force = "neutral", amount = 666},
+        {name = "ad-portal-harvester", position = {5, 0}},
         {name = "gun-turret", position = {14, 6}},
         {name = "gun-turret", position = {14, -7}}
     }
@@ -50,7 +50,7 @@ local on_player_created = function(event)
             surface.daytime = 0.7
             
             for _, entity in pairs(global.structures) do
-                surface.create_entity{name = entity.name, position = entity.position, force = entity.force or player.force}
+                surface.create_entity{name = entity.name, position = entity.position, force = entity.force or player.force, amount = entity.amount}
             end
 
             player.get_main_inventory().sort_and_merge()
