@@ -1,18 +1,19 @@
-require("prototypes.buildings.demonic-artificer")
-require("prototypes.buildings.dummy-harvester")
-require("prototypes.buildings.portal-harvester")
-require("prototypes.buildings.solid-processing-unit")
-require("prototypes.buildings.crust-cracker")
+require("Prototypes.buildings.demonic-artificer")
+require("Prototypes.buildings.dummy-harvester")
+require("Prototypes.buildings.portal-harvester")
+--require("Prototypes.buildings.solid-processing-unit") Deprecated
+require("Prototypes.buildings.crust-cracker")
+require("prototypes.buildings.essence-manipulator")
 
-require("prototypes.items.drill-head-mk1")
-require("prototypes.items.mob-drops")
+require("Prototypes.items.drill-head-mk1")
+require("Prototypes.items.mob-drops")
 
-require("prototypes.recipes.solid-processing-unit")
-require("prototypes.recipes.vanilla-compat")
+require("Prototypes.recipes.solid-processing-unit")
+require("Prototypes.recipes.vanilla-compat")
 
-require("prototypes.resources.portal-fissure")
+require("Prototypes.resources.portal-fissure")
 
-require("prototypes.categories")
+require("Prototypes.categories")
 
 ---Arch_Demons global table containing variables and functions intended for compatability
 Arch_Demons =
