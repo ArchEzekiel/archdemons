@@ -1,4 +1,4 @@
-require("Utilities.glow-layers")
+require("utilities.glow-layers")
 
 data:extend{
     {---@as data.ItemPrototype
