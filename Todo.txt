@@ -29,3 +29,5 @@ Low Priority:
 -Artificial Portal Locale
 -Remove Ritual from crafting menu
 -Look into "graceful" handling of game.force.enemy incase deleted
+
+-Test
